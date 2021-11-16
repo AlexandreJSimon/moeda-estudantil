@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device=width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie-edge">
+		<title>Login</title>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
+	</head>
+
+	<body>
+		<div class="container">
+			<div class="pt-5">
+
+				<div class="mb-5">
+						<a href="/user/new" class="btn btn-outline-success">Novo Usuário</a>
+				</div>
+
+				<table class="table">
+						<thead>
+								<tr>
+										<th scope="col">#</th>
+										<th scope="col">Nome</th>
+										<th scope="col">Email</th>
+										<th scope="col">Tipo</th>
+										<th scope="col"></th>
+								</tr>
+						</thead>
+						<tbody>
+
+							<%
+							var c = 0;
+							for(var i=0; i < users.length; i++){
+								c++;
+								%>
+								<tr>
+									<th scope="row"><%= users[i].id %></th>
+									<td><%= users[i].nome %></td>
+									<td><%= users[i].email %></td>
+									<td><%= users[i].tipo %></td>
+									<td>
+										<a href="/user/update/<%= users[i].id %>" class="btn btn-outline-primary btn-sm">Editar</a>
+										<a href="/user/delete/<%= users[i].id %>" class="btn btn-outline-danger btn-sm">Remove</a>
+									</td>
+								</tr>
+								<%
+							}
+							%>
+						</tbody>
+				</table>
+			</div>
+		</div>
+	</body>
+</html>

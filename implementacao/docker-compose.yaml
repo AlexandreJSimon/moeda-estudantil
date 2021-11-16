@@ -1,0 +1,23 @@
+version: '2'
+services:
+  project:
+    command: "npm start"
+    build: ./
+    volumes:
+      - ./:/usr/src/app
+    environment:
+      - DB=project
+      - DB_HOST=mysql
+      - DB_USER=root
+      - DB_PASSWORD=root
+    ports:
+      - 3000:3000
+    links:
+      - mysql:mysql
+  mysql:
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=project
+    ports:
+      - 3306:3306
