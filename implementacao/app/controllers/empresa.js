@@ -2,18 +2,18 @@ const passport = require("passport");
 
 module.exports = (app) => {
   
-    const aluno = {};
-    const Aluno = app.models.index.Aluno
+    const empresa = {};
+    const Empresa = app.models.index.Empresa
     const User = app.models.index.User
 
-    aluno.index = async (req,res) => {
+    empresa.index = async (req,res) => {
 
-      alunos = await Aluno.findAll({ raw: true });
+      empresas = await Empresa.findAll({ raw: true });
 
       try{
         return res.format({
           html : () => {
-              res.render('aluno/index', { alunos: alunos});
+              res.render('empresa/index', { empresas: empresas});
           }
         });
       }catch(err){
@@ -21,11 +21,11 @@ module.exports = (app) => {
       }
     }
 
-    aluno.new = async (req,res) => {
+    empresa.new = async (req,res) => {
       try{
         return res.format({
           html : () => {
-              res.render('aluno/new');
+              res.render('empresa/new');
           }
         });
       }catch(err){
@@ -33,8 +33,8 @@ module.exports = (app) => {
       }
     }
     
-    aluno.register = async (req,res) => {
-      const { email, senha, nome, cpf, rg, instituicaoEnsino, curso, endereco } = req.body;
+    empresa.register = async (req,res) => {
+      const { email, senha, nome, descricao, valor } = req.body;
       //TODO Alterar posterios para uma lista de roles, sendo transacao, recebedor, emissor que define as permicoes
       const role = "op_transacao";
       try{
@@ -45,13 +45,10 @@ module.exports = (app) => {
         });
 
         const userId = userCreated.id;
-        const alunoCreated = await Aluno.create({ 
+        const empresaCreated = await Empresa.create({ 
           nome,
-          cpf, 
-          rg,
-          instituicaoEnsino,
-          curso,
-          endereco,
+          descricao,
+          valor,
           userId
         });
 
@@ -61,30 +58,28 @@ module.exports = (app) => {
       }
     }
 
-    aluno.getById = async (req,res) => {
+    empresa.getById = async (req,res) => {
 
       try{
-        const aluno = await Aluno.findOne({ raw: true, where: { id: req.params.id } });
-        return res.render('aluno/new', { aluno: aluno })
+        const empresa = await Empresa.findOne({ raw: true, where: { id: req.params.id } });
+        return res.render('empresa/new', { empresa: empresa })
       }catch(err){
         return res.status(400).send({ error: 'Bad Request' });
       }
     }
 
-    aluno.update = async (req,res) => {
-      const { email, senha, nome, cpf, rg, instituicaoEnsino, curso, endereco } = req.body;
+    empresa.update = async (req,res) => {
+      const { email, senha, nome, descricao, valor } = req.body;
 
       try{
-        await Aluno.update({
+        await Empresa.update({
           email: email, 
           senha: senha, 
           //role: role,
           nome: nome,
-          cpf: cpf,
+          descricao: descricao,
           rg: rg,
-          instituicaoEnsino: instituicaoEnsino,
-          curso: curso,
-          endereco: endereco
+          valor: valor,
         }, { where: { id: req.params.id }})
 
         return res.redirect('/')
@@ -94,14 +89,9 @@ module.exports = (app) => {
       }
     }
 
-    aluno.delete = async (req,res) => {
+    empresa.delete = async (req,res) => {
       try{
-        Aluno.destroy({
-          where: {
-              id: req.params.id
-          }
-        })
-        User.destroy({
+        Empresa.destroy({
           where: {
               id: req.params.id
           }
@@ -112,5 +102,5 @@ module.exports = (app) => {
       }
     }
 
-    return aluno;
+    return empresa;
   }

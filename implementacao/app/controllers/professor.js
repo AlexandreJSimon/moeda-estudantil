@@ -2,18 +2,18 @@ const passport = require("passport");
 
 module.exports = (app) => {
   
-    const aluno = {};
-    const Aluno = app.models.index.Aluno
+    const professor = {};
+    const Professor = app.models.index.Professor
     const User = app.models.index.User
 
-    aluno.index = async (req,res) => {
+    professor.index = async (req,res) => {
 
-      alunos = await Aluno.findAll({ raw: true });
+      professores = await Professor.findAll({ raw: true });
 
       try{
         return res.format({
           html : () => {
-              res.render('aluno/index', { alunos: alunos});
+              res.render('professor/index', { professores: professores});
           }
         });
       }catch(err){
@@ -21,11 +21,11 @@ module.exports = (app) => {
       }
     }
 
-    aluno.new = async (req,res) => {
+    professor.new = async (req,res) => {
       try{
         return res.format({
           html : () => {
-              res.render('aluno/new');
+              res.render('professor/new');
           }
         });
       }catch(err){
@@ -33,8 +33,8 @@ module.exports = (app) => {
       }
     }
     
-    aluno.register = async (req,res) => {
-      const { email, senha, nome, cpf, rg, instituicaoEnsino, curso, endereco } = req.body;
+    professor.register = async (req,res) => {
+      const { email, senha, nome, cpf, instituicaoEnsino, departamento, carteira } = req.body;
       //TODO Alterar posterios para uma lista de roles, sendo transacao, recebedor, emissor que define as permicoes
       const role = "op_transacao";
       try{
@@ -45,13 +45,12 @@ module.exports = (app) => {
         });
 
         const userId = userCreated.id;
-        const alunoCreated = await Aluno.create({ 
+        const professorCreated = await Professor.create({ 
           nome,
           cpf, 
-          rg,
           instituicaoEnsino,
-          curso,
-          endereco,
+          departamento,
+          carteira,
           userId
         });
 
@@ -61,30 +60,29 @@ module.exports = (app) => {
       }
     }
 
-    aluno.getById = async (req,res) => {
+    professor.getById = async (req,res) => {
 
       try{
-        const aluno = await Aluno.findOne({ raw: true, where: { id: req.params.id } });
-        return res.render('aluno/new', { aluno: aluno })
+        const professor = await Professor.findOne({ raw: true, where: { id: req.params.id } });
+        return res.render('professor/new', { professor: professor })
       }catch(err){
         return res.status(400).send({ error: 'Bad Request' });
       }
     }
 
-    aluno.update = async (req,res) => {
-      const { email, senha, nome, cpf, rg, instituicaoEnsino, curso, endereco } = req.body;
+    professor.update = async (req,res) => {
+      const { email, senha, nome, cpf, instituicaoEnsino, departamento, carteira } = req.body;
 
       try{
-        await Aluno.update({
+        await Professor.update({
           email: email, 
           senha: senha, 
           //role: role,
           nome: nome,
           cpf: cpf,
-          rg: rg,
           instituicaoEnsino: instituicaoEnsino,
-          curso: curso,
-          endereco: endereco
+          departamento: departamento,
+          carteira: carteira
         }, { where: { id: req.params.id }})
 
         return res.redirect('/')
@@ -94,14 +92,9 @@ module.exports = (app) => {
       }
     }
 
-    aluno.delete = async (req,res) => {
+    professor.delete = async (req,res) => {
       try{
-        Aluno.destroy({
-          where: {
-              id: req.params.id
-          }
-        })
-        User.destroy({
+        Professor.destroy({
           where: {
               id: req.params.id
           }
@@ -112,5 +105,5 @@ module.exports = (app) => {
       }
     }
 
-    return aluno;
+    return professor;
   }
