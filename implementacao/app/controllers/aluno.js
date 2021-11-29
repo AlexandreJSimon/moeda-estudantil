@@ -61,5 +61,56 @@ module.exports = (app) => {
       }
     }
 
+    aluno.getById = async (req,res) => {
+
+      try{
+        const aluno = await Aluno.findOne({ raw: true, where: { id: req.params.id } });
+        return res.render('aluno/new', { aluno: aluno })
+      }catch(err){
+        return res.status(400).send({ error: 'Bad Request' });
+      }
+    }
+
+    aluno.update = async (req,res) => {
+      const { email, senha, nome, cpf, rg, instituicaoEnsino, curso, endereco } = req.body;
+
+      try{
+        await Aluno.update({
+          email: email, 
+          senha: senha, 
+          //role: role,
+          nome: nome,
+          cpf: cpf,
+          rg: rg,
+          instituicaoEnsino: instituicaoEnsino,
+          curso: curso,
+          endereco: endereco
+        }, { where: { id: req.params.id }})
+
+        return res.redirect('/')
+      }catch(err){
+        console.log(err)
+        return res.status(400).send({ error: 'Bad Request' });
+      }
+    }
+
+    aluno.delete = async (req,res) => {
+      try{
+        Aluno.destroy({
+          where: {
+              id: req.params.id
+          }
+        })
+        User.destroy({
+          where: {
+              id: req.params.id
+          }
+        })
+        return res.redirect('/')
+      }catch(err){
+        return res.status(400).send({ error: 'Bad Request' });
+      }
+    }
+
     return aluno;
   }
