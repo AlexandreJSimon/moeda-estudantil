@@ -33,19 +33,12 @@ module.exports = (app) => {
     }
     
     user.register = async (req,res) => {
-      const { nome, email, senha, cpf_cnpj, rg, endereco, instituicao_ensino, curso, departamento, tipo } = req.body;
+      const { email, senha , role } = req.body;
       try{
         const create = await User.create({ 
-          nome, 
           email, 
           senha, 
-          cpf_cnpj, 
-          rg, 
-          endereco, 
-          instituicao_ensino, 
-          curso, 
-          departamento, 
-          tipo 
+          role 
         });
 
         return res.redirect('/')
@@ -65,19 +58,13 @@ module.exports = (app) => {
     }
 
     user.update = async (req,res) => {
-      const { nome, email, cpf_cnpj, rg, endereco, instituicao_ensino, curso, departamento, tipo } = req.body;
+      const { email, senha, role } = req.body;
 
       try{
         await User.update({
-          nome: nome, 
           email: email, 
-          cpf_cnpj: cpf_cnpj, 
-          rg: rg, 
-          endereco: endereco, 
-          instituicao_ensino: instituicao_ensino, 
-          curso: curso, 
-          departamento: departamento, 
-          tipo: tipo 
+          senha: senha, 
+          role: role 
         }, { where: { id: req.params.id }})
 
         return res.redirect('/')
