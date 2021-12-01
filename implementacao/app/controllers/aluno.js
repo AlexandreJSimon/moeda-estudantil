@@ -35,8 +35,7 @@ module.exports = (app) => {
     
     aluno.register = async (req,res) => {
       const { email, senha, nome, cpf, rg, instituicaoEnsino, curso, endereco } = req.body;
-      //TODO Alterar posterios para uma lista de roles, sendo transacao, recebedor, emissor que define as permicoes
-      const role = "op_transacao";
+      const role = "aluno";
       try{
         const userCreated = await User.create({ 
           email,
@@ -75,17 +74,21 @@ module.exports = (app) => {
       const { email, senha, nome, cpf, rg, instituicaoEnsino, curso, endereco } = req.body;
 
       try{
-        await Aluno.update({
-          email: email, 
-          senha: senha, 
-          //role: role,
-          nome: nome,
-          cpf: cpf,
-          rg: rg,
-          instituicaoEnsino: instituicaoEnsino,
-          curso: curso,
-          endereco: endereco
-        }, { where: { id: req.params.id }})
+        const userUpdated = await User.update({ 
+          email,
+          senha
+        });
+
+        const userId = userUpdated.id;
+        await Aluno.update({ 
+          nome,
+          cpf, 
+          rg,
+          instituicaoEnsino,
+          curso,
+          endereco,
+          userId
+        });
 
         return res.redirect('/')
       }catch(err){
@@ -96,14 +99,15 @@ module.exports = (app) => {
 
     aluno.delete = async (req,res) => {
       try{
-        Aluno.destroy({
+        const alunodeleted = Aluno.destroy({
           where: {
               id: req.params.id
           }
         })
+        
         User.destroy({
           where: {
-              id: req.params.id
+              id: alunodeleted.userId
           }
         })
         return res.redirect('/')

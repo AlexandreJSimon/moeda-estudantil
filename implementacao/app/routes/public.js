@@ -1,7 +1,7 @@
 module.exports = (app) => {
   app.prefix('/', (public) => {
     //user routes
-    public.get('/', app.controllers.user.index);
+    public.get('/', app.controllers.init.index);
     
     //Aluno routes
     public.get('/alunos', app.controllers.aluno.index);
@@ -18,7 +18,6 @@ module.exports = (app) => {
     public.get('/professor/delete/:id', app.controllers.professor.delete);
     public.get('/professor/update/:id', app.controllers.professor.getById);
     public.post('/professor/update/:id', app.controllers.professor.update);
-
 
     //Professor routes
     public.get('/empresas', app.controllers.empresa.index);

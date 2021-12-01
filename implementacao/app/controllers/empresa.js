@@ -35,7 +35,6 @@ module.exports = (app) => {
     
     empresa.register = async (req,res) => {
       const { email, senha, nome, descricao, valor } = req.body;
-      //TODO Alterar posterios para uma lista de roles, sendo transacao, recebedor, emissor que define as permicoes
       const role = "op_transacao";
       try{
         const userCreated = await User.create({ 
@@ -72,15 +71,18 @@ module.exports = (app) => {
       const { email, senha, nome, descricao, valor } = req.body;
 
       try{
-        await Empresa.update({
-          email: email, 
-          senha: senha, 
-          //role: role,
-          nome: nome,
-          descricao: descricao,
-          rg: rg,
-          valor: valor,
-        }, { where: { id: req.params.id }})
+        const userCreated = await User.update({ 
+          email,
+          senha
+        });
+
+        const userId = userCreated.id;
+        const empresaCreated = await Empresa.update({ 
+          nome,
+          descricao,
+          valor,
+          userId
+        });
 
         return res.redirect('/')
       }catch(err){
@@ -91,9 +93,15 @@ module.exports = (app) => {
 
     empresa.delete = async (req,res) => {
       try{
-        Empresa.destroy({
+        const empresaDeleted = Empresa.destroy({
           where: {
               id: req.params.id
+          }
+        })
+        
+        User.destroy({
+          where: {
+              id: empresaDeleted.userId
           }
         })
         return res.redirect('/')

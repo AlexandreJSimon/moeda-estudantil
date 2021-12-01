@@ -35,7 +35,6 @@ module.exports = (app) => {
     
     professor.register = async (req,res) => {
       const { email, senha, nome, cpf, instituicaoEnsino, departamento, carteira } = req.body;
-      //TODO Alterar posterios para uma lista de roles, sendo transacao, recebedor, emissor que define as permicoes
       const role = "op_transacao";
       try{
         const userCreated = await User.create({ 
@@ -74,16 +73,21 @@ module.exports = (app) => {
       const { email, senha, nome, cpf, instituicaoEnsino, departamento, carteira } = req.body;
 
       try{
-        await Professor.update({
-          email: email, 
-          senha: senha, 
-          //role: role,
-          nome: nome,
-          cpf: cpf,
-          instituicaoEnsino: instituicaoEnsino,
-          departamento: departamento,
-          carteira: carteira
-        }, { where: { id: req.params.id }})
+
+        const userCreated = await User.update({ 
+          email,
+          senha
+        });
+
+        const userId = userCreated.id;
+         await Professor.update({ 
+          nome,
+          cpf, 
+          instituicaoEnsino,
+          departamento,
+          carteira,
+          userId
+        });
 
         return res.redirect('/')
       }catch(err){
@@ -94,9 +98,15 @@ module.exports = (app) => {
 
     professor.delete = async (req,res) => {
       try{
-        Professor.destroy({
+        const professorDelted = Professor.destroy({
           where: {
               id: req.params.id
+          }
+        })
+
+        User.destroy({
+          where: {
+              id: professorDelted.userId
           }
         })
         return res.redirect('/')

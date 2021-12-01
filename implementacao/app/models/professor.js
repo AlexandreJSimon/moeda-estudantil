@@ -2,7 +2,6 @@
 const {
   Model
 } = require('sequelize');
-const empresa = require('../controllers/empresa');
 module.exports = (sequelize, DataTypes) => {
   class Professor extends Model {
     /**
