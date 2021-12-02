@@ -64,31 +64,20 @@ module.exports = (app) => {
 
       try{
         const aluno = await Aluno.findOne({ raw: true, where: { id: req.params.id } });
-        return res.render('aluno/new', { aluno: aluno })
+
+        return res.render('aluno/edit', { aluno: aluno })
       }catch(err){
         return res.status(400).send({ error: 'Bad Request' });
       }
     }
+  
 
     aluno.update = async (req,res) => {
-      const { email, senha, nome, cpf, rg, instituicaoEnsino, curso, endereco } = req.body;
-
+ 
       try{
-        const userUpdated = await User.update({ 
-          email,
-          senha
-        });
 
-        const userId = userUpdated.id;
-        await Aluno.update({ 
-          nome,
-          cpf, 
-          rg,
-          instituicaoEnsino,
-          curso,
-          endereco,
-          userId
-        });
+        let aluno = await Aluno.findByPk(req.params.id)
+        aluno = await aluno.update(req.body)
 
         return res.redirect('/')
       }catch(err){

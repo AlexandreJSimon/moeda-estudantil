@@ -20,12 +20,14 @@ module.exports = (app) => {
     public.post('/professor/update/:id', app.controllers.professor.update);
 
     //Professor routes
+  
     public.get('/empresas', app.controllers.empresa.index);
     public.get('/empresa/new', app.controllers.empresa.new);
     public.post('/empresa/new', app.controllers.empresa.register);
     public.get('/empresa/delete/:id', app.controllers.empresa.delete);
     public.get('/empresa/update/:id', app.controllers.empresa.getById);
     public.post('/empresa/update/:id', app.controllers.empresa.update);
+    
 
 
     //TODO o usuario só poderá ser criado juntamente com uma entidade (aluno, professor e empresa) tendo uma relacao entre as mesmas

@@ -24,16 +24,8 @@
   </nav>
   <div class="container">
     <div class="pt-5">
-      <h2 class="mb-2"><%= typeof aluno === 'undefined' ? 'Cadastro' : 'Edição' %> de Aluno</h2>
+      <h2 class="mb-2">Edição de Aluno</h2>
       <form action="/aluno/<%= typeof aluno === 'undefined' ? 'new' : 'update' %><%= typeof aluno === 'undefined' ? '' : '/'+aluno.id %>" method="POST">
-        <div class="mb-2">
-          <label for="email" class="form-label">email</label>
-          <input type="email" name="email" class="form-control" id="email" value="<%= typeof aluno === 'undefined' ? '' : user.email %>">
-        </div>
-        <div class="mb-2">
-          <label for="senha" class="form-label">senha</label>
-          <input type="senha" name="senha" class="form-control" id="senha" value="<%= typeof aluno === 'undefined' ? '' : user.senha %>">
-        </div>
         <div class="mb-2">
           <label for="nome" class="form-label">Nome</label>
           <input type="nome" name="nome" class="form-control" id="nome" value="<%= typeof aluno === 'undefined' ? '' : aluno.nome %>">

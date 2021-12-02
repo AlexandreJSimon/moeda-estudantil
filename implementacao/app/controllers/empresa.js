@@ -35,7 +35,7 @@ module.exports = (app) => {
     
     empresa.register = async (req,res) => {
       const { email, senha, nome, descricao, valor } = req.body;
-      const role = "op_transacao";
+      const role = "op_empresa";
       try{
         const userCreated = await User.create({ 
           email,
@@ -44,7 +44,7 @@ module.exports = (app) => {
         });
 
         const userId = userCreated.id;
-        const empresaCreated = await Empresa.create({ 
+        await Empresa.create({ 
           nome,
           descricao,
           valor,
@@ -61,28 +61,18 @@ module.exports = (app) => {
 
       try{
         const empresa = await Empresa.findOne({ raw: true, where: { id: req.params.id } });
-        return res.render('empresa/new', { empresa: empresa })
+        return res.render('empresa/edit', { empresa: empresa })
       }catch(err){
         return res.status(400).send({ error: 'Bad Request' });
       }
     }
 
     empresa.update = async (req,res) => {
-      const { email, senha, nome, descricao, valor } = req.body;
 
       try{
-        const userCreated = await User.update({ 
-          email,
-          senha
-        });
-
-        const userId = userCreated.id;
-        const empresaCreated = await Empresa.update({ 
-          nome,
-          descricao,
-          valor,
-          userId
-        });
+      
+        let empresa = await Empresa.findByPk(req.params.id)
+        empresa = await empresa.update(req.body)
 
         return res.redirect('/')
       }catch(err){
