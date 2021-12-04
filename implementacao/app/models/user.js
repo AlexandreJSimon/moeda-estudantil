@@ -1,4 +1,6 @@
 'use strict';
+const bcrypt = require("bcryptjs");
+
 const {
   Model
 } = require('sequelize');
@@ -14,16 +16,9 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   User.init({
-    nome: DataTypes.STRING,
     email: DataTypes.STRING,
     senha: DataTypes.STRING,
-    cpf_cnpj: DataTypes.STRING,
-    rg: DataTypes.STRING,
-    endereco: DataTypes.STRING,
-    instituicao_ensino: DataTypes.STRING,
-    curso: DataTypes.STRING,
-    departamento: DataTypes.STRING,
-    tipo: DataTypes.STRING
+    role: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'User',

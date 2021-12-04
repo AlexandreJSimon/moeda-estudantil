@@ -10,38 +10,38 @@
 	</head>
 
 	<body>
+		<nav class="navbar navbar-light" style="background-color: #f7dc8b;">
+			<div class="container">
+				<div>
+					<span class="navbar-brand mb-0 h1">Moeda Estudantil</span>
+					<a href="/" class="btn btn-secondary">Pagina Inicial</a>
+					<a href="/aluno/new" class="btn btn-light">Novo Aluno</a>
+				</div>
+			</div>
+		</nav>
 		<div class="container">
 			<div class="pt-5">
-
-				<div class="mb-5">
-						<a href="/user/new" class="btn btn-outline-success">Novo Usuário</a>
-				</div>
-
 				<table class="table">
-						<thead>
-								<tr>
-										<th scope="col">#</th>
-										<th scope="col">Nome</th>
-										<th scope="col">Email</th>
-										<th scope="col">Tipo</th>
-										<th scope="col"></th>
-								</tr>
-						</thead>
+					<thead>
+							<tr>
+								<th scope="col">#</th>
+								<th scope="col">nome</th>
+								<th scope="col"></th>
+							</tr>
+					</thead>
 						<tbody>
 
 							<%
 							var c = 0;
-							for(var i=0; i < users.length; i++){
+							for(var i=0; i < alunos.length; i++){
 								c++;
 								%>
 								<tr>
-									<th scope="row"><%= users[i].id %></th>
-									<td><%= users[i].nome %></td>
-									<td><%= users[i].email %></td>
-									<td><%= users[i].tipo %></td>
+									<th scope="row"><%= alunos[i].id %></th>
+									<td><%= alunos[i].nome %></td>
 									<td>
-										<a href="/user/update/<%= users[i].id %>" class="btn btn-outline-primary btn-sm">Editar</a>
-										<a href="/user/delete/<%= users[i].id %>" class="btn btn-outline-danger btn-sm">Remove</a>
+										<a href="/aluno/update/<%= alunos[i].id %>" class="btn btn-outline-primary btn-sm">Editar</a>
+										<a href="/aluno/delete/<%= alunos[i].id %>" class="btn btn-outline-danger btn-sm">Remove</a>
 									</td>
 								</tr>
 								<%

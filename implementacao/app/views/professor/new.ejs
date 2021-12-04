@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device=width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie-edge">
+  <title>Login</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"
+    integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
+</head>
+
+<body>
+  <div class="container">
+    <div class="pt-5">
+      <div class="mb-5">
+        <a href="/professores" class="btn btn-outline-success">listagem de Professores</a>
+        <a href="/" class="btn btn-outline-success">Pagina Inicial</a>
+      </div>
+
+      <h2 class="mb-5"><%= typeof professor === 'undefined' ? 'Cadastro' : 'Edição' %> de Professor</h2>
+      <form action="/professor/<%= typeof professor === 'undefined' ? 'new' : 'update' %><%= typeof professor === 'undefined' ? '' : '/'+professor.id %>" method="POST">
+        <div class="mb-2">
+          <label for="email" class="form-label">email</label>
+          <input type="email" name="email" class="form-control" id="email" value="<%= typeof professor === 'undefined' ? '' : professor.email %>">
+        </div>
+        <div class="mb-2">
+          <label for="senha" class="form-label">senha</label>
+          <input type="senha" name="senha" class="form-control" id="senha" value="<%= typeof professor === 'undefined' ? '' : professor.senha %>">
+        </div>
+        <div class="mb-2">
+          <label for="nome" class="form-label">Nome</label>
+          <input type="nome" name="nome" class="form-control" id="nome" value="<%= typeof professor === 'undefined' ? '' : professor.nome %>">
+        </div>
+        <div class="mb-2">
+          <label for="cpf" class="form-label">cpf</label>
+          <input type="cpf" name="cpf" class="form-control" id="cpf" value="<%= typeof professor === 'undefined' ? '' : professor.cpf %>">
+        </div>
+        <div class="mb-2">
+          <label for="instituicaoEnsino" class="form-label">instituicao Ensino</label>
+          <input type="instituicaoEnsino" name="instituicaoEnsino" class="form-control" id="instituicaoEnsino" value="<%= typeof professor === 'undefined' ? '' : professor.instituicaoEnsino %>">
+        </div>
+        <div class="mb-2">
+          <label for="departamento" class="form-label">departamento</label>
+          <input type="departamento" name="departamento" class="form-control" id="departamento" value="<%= typeof professor === 'undefined' ? '' : professor.departamento %>">
+        </div>
+        <div class="mb-2">
+          <label for="carteira" class="form-label">carteira</label>
+          <input type="carteira" name="carteira" class="form-control" id="carteira" value="<%= typeof professor === 'undefined' ? '' : professor.carteira %>">
+        </div>
+        <button type="submit" class="btn btn-primary mt-3 mb-3"><%= typeof professor === 'undefined' ? 'Registrar' : 'Editar' %></button>
+      </form>
+    </div>
+  </div>
+</body>
+
+</html>
