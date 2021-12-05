@@ -9,7 +9,7 @@ module.exports = (app) => {
 
     aluno.index = async (req,res) => {
 
-      alunos = await Aluno.findAll({ raw: true });
+      const alunos = await Aluno.findAll({ raw: true });
 
       try{
         return res.format({
@@ -36,28 +36,21 @@ module.exports = (app) => {
     
     aluno.register = async (req,res) => {
       const { email, senha, nome, cpf, rg, instituicaoEnsino, curso, endereco } = req.body;
-      const role = "opaluno";
+      const role = "op_adm";
       try{
-        const userCreated = await User.create({ 
+        const userEntity = await User.create({ 
           email,
           senha,
           role
         });
 
-        const userId = userCreated.id;
-        const saldo = 500;
 
-        carteiraEntity = CarteiraService.create(userId, saldo);
-
-        
-        const carteiraEntity = await Carteira.create({ 
-          saldo,
-          userId
-        });
-        
+        const userId = userEntity.id;
+        const saldo = 0;
+        const carteiraEntity = CarteiraService.create(userId, saldo);
 
         const carteiraId = carteiraEntity.id;
-        const alunoCreated = await Aluno.create({ 
+        const alunoEntity = await Aluno.create({ 
           nome,
           cpf, 
           rg,
@@ -68,7 +61,7 @@ module.exports = (app) => {
           userId
         });
 
-        return res.redirect('/')
+        return res.redirect('/alunos')
       }catch(err){
         return res.status(400).send({ error: 'Bad Request' });
       }
@@ -92,7 +85,7 @@ module.exports = (app) => {
         let aluno = await Aluno.findByPk(req.params.id)
         aluno = await aluno.update(req.body)
 
-        return res.redirect('/')
+        return res.redirect('/alunos')
       }catch(err){
         console.log(err)
         return res.status(400).send({ error: 'Bad Request' });
@@ -112,11 +105,28 @@ module.exports = (app) => {
               id: alunodeleted.userId
           }
         })
-        return res.redirect('/')
+        return res.redirect('/alunos')
       }catch(err){
         return res.status(400).send({ error: 'Bad Request' });
       }
     }
+
+    aluno.getCarteira = async (req,res) => {
+
+      const carteira = await Carteira.findOne({ raw: true, where: { userId: req.params.userId } });
+      const alunos = await Aluno.findAll({ raw: true });
+
+      try{
+        return res.format({
+          html : () => {
+              res.render('aluno/index', { alunos: alunos, carteira: carteira});
+          }
+        });
+      }catch(err){
+        return res.status(400).send({ error: 'Bad Request' });
+      }
+    }
+
 
     return aluno;
   }
