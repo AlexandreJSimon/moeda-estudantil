@@ -20,8 +20,8 @@ module.exports = {
       departamento: {
         type: Sequelize.STRING
       },
-      carteira: {
-        type: Sequelize.STRING
+      carteiraId: {
+        type: Sequelize.INTEGER
       },
       userId: {
         type: Sequelize.INTEGER
