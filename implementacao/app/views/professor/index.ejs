@@ -52,33 +52,33 @@
 						</tbody>
 				</table>
 			</div>
-						 <!-- Modal -->
-						 <%
-			
-						 if(typeof carteira != "undefined"){
-							 %>
-								   <!-- Modal -->
-							 <div class="modal fade show" id="modalExemplo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-modal="true" style="display: block;">
-								 <div class="modal-dialog" role="document">
-								 <div class="modal-content">
-									 <div class="modal-header">
-									 <h5 class="modal-title" id="exampleModalLabel">Carteira</h5>
-									 <a href="/alunos" class="btn btn-dark">fechar</a>
-									 </div>
-									 <div class="modal-body">
-										 <p><b>Saldo: </b><%= carteira.saldo %></p>
-									 </div>
-									 <div class="modal-footer">
-									 <button type="button" class="btn btn-warning">Realizar transferencia</button>
-									 </div>
-								 </div>
-								 </div>
-							 </div>
-							 <%
-						 }
-						 %>
-			 
-					 <!-- Fim -->
+			<!-- Modal -->
+			<%
+
+			if(typeof carteira != "undefined"){
+				%>
+					<!-- Modal -->
+				<div class="modal fade show" id="modalExemplo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-modal="true" style="display: block;">
+					<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Carteira</h5>
+						<a href="/alunos" class="btn btn-dark">fechar</a>
+						</div>
+						<div class="modal-body">
+							<p><b>Saldo: </b><%= carteira.saldo %></p>
+						</div>
+						<div class="modal-footer">
+						<button type="button" class="btn btn-warning">Realizar transferencia</button>
+						</div>
+					</div>
+					</div>
+				</div>
+				<%
+			}
+			%>
+
+		<!-- Fim -->
 		</div>
 	</body>
 </html>
