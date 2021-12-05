@@ -46,10 +46,6 @@
           <label for="departamento" class="form-label">departamento</label>
           <input type="departamento" name="departamento" class="form-control" id="departamento" value="<%= typeof professor === 'undefined' ? '' : professor.departamento %>">
         </div>
-        <div class="mb-2">
-          <label for="carteira" class="form-label">carteira</label>
-          <input type="carteira" name="carteira" class="form-control" id="carteira" value="<%= typeof professor === 'undefined' ? '' : professor.carteira %>">
-        </div>
         <button type="submit" class="btn btn-primary mt-3 mb-3"><%= typeof professor === 'undefined' ? 'Registrar' : 'Editar' %></button>
       </form>
     </div>

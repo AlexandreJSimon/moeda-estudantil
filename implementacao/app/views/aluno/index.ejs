@@ -26,6 +26,8 @@
 							<tr>
 								<th scope="col">#</th>
 								<th scope="col">nome</th>
+								<th scope="col">curso</th>
+								<th scope="col">instituicao</th>
 								<th scope="col"></th>
 							</tr>
 					</thead>
@@ -39,6 +41,8 @@
 								<tr>
 									<th scope="row"><%= alunos[i].id %></th>
 									<td><%= alunos[i].nome %></td>
+									<td><%= alunos[i].curso %></td>
+									<td><%= alunos[i].instituicaoEnsino %></td>
 									<td>
 										<a href="/aluno/update/<%= alunos[i].id %>" class="btn btn-outline-primary btn-sm">Editar</a>
 										<a href="/aluno/delete/<%= alunos[i].id %>" class="btn btn-outline-danger btn-sm">Remove</a>
