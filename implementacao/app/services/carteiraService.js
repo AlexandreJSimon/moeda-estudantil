@@ -1,9 +1,9 @@
 module.exports = (app) => {
-  const CarteiraService = {};
+  const carteiraService = {};
   const Carteira = app.models.index.Carteira;
 
 
-  CarteiraService.create = async (userId,saldo) => {
+  carteiraService.create = async (userId,saldo) => {
     try{
 
       const carteiraEntity = await Carteira.create({ 
@@ -17,7 +17,7 @@ module.exports = (app) => {
     }
   }
 
-  CarteiraService.transfer = async (mensagem, remetenteId, destinarioId) => {
+  carteiraService.transfer = async (mensagem, remetenteId, destinarioId) => {
     try{
 
 
@@ -26,5 +26,5 @@ module.exports = (app) => {
     }
   }
 
-  return CarteiraService;
+  return carteiraService;
 };

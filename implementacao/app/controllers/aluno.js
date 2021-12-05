@@ -5,7 +5,7 @@ module.exports = (app) => {
     const Aluno = app.models.index.Aluno
     const User = app.models.index.User
     const Carteira = app.models.index.Carteira
-    const CarteiraService = app.services.CarteiraService;
+    const CarteiraService = app.services.carteiraService;
 
     aluno.index = async (req,res) => {
 
