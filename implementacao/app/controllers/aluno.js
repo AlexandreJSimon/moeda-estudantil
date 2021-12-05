@@ -1,4 +1,3 @@
-const passport = require("passport");
 
 module.exports = (app) => {
   
@@ -35,7 +34,7 @@ module.exports = (app) => {
     
     aluno.register = async (req,res) => {
       const { email, senha, nome, cpf, rg, instituicaoEnsino, curso, endereco } = req.body;
-      const role = "aluno";
+      const role = "opaluno";
       try{
         const userCreated = await User.create({ 
           email,
