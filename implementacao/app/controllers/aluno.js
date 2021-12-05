@@ -4,6 +4,8 @@ module.exports = (app) => {
     const aluno = {};
     const Aluno = app.models.index.Aluno
     const User = app.models.index.User
+    const Carteira = app.models.index.Carteira
+    const CarteiraService = app.services.CarteiraService;
 
     aluno.index = async (req,res) => {
 
@@ -43,6 +45,18 @@ module.exports = (app) => {
         });
 
         const userId = userCreated.id;
+        const saldo = 500;
+
+        carteiraEntity = CarteiraService.create(userId, saldo);
+
+        
+        const carteiraEntity = await Carteira.create({ 
+          saldo,
+          userId
+        });
+        
+
+        const carteiraId = carteiraEntity.id;
         const alunoCreated = await Aluno.create({ 
           nome,
           cpf, 
@@ -50,6 +64,7 @@ module.exports = (app) => {
           instituicaoEnsino,
           curso,
           endereco,
+          carteiraId,
           userId
         });
 
@@ -69,7 +84,6 @@ module.exports = (app) => {
         return res.status(400).send({ error: 'Bad Request' });
       }
     }
-  
 
     aluno.update = async (req,res) => {
  

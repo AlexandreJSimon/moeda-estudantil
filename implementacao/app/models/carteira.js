@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Carteira.init({
-    saldo: DataTypes.STRING,
+    saldo: DataTypes.INTEGER,
     userId: DataTypes.INTEGER
   }, {
     sequelize,

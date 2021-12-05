@@ -1,10 +1,9 @@
-const passport = require("passport");
-
 module.exports = (app) => {
   
     const professor = {};
     const Professor = app.models.index.Professor
     const User = app.models.index.User
+    const Carteira = app.models.index.Carteira
 
     professor.index = async (req,res) => {
 
@@ -37,19 +36,28 @@ module.exports = (app) => {
       const { email, senha, nome, cpf, instituicaoEnsino, departamento, carteira } = req.body;
       const role = "op_transacao";
       try{
-        const userCreated = await User.create({ 
+
+        const userEntity = await User.create({ 
           email,
           senha,
           role
         });
 
-        const userId = userCreated.id;
-        const professorCreated = await Professor.create({ 
+        const userId = userEntity.id;
+        const saldo = 500;
+
+        const carteiraEntity = await Carteira.create({ 
+          saldo,
+          userId
+        });
+
+        const carteiraId = carteiraEntity.id;
+        const professorEntity = await Professor.create({ 
           nome,
           cpf, 
           instituicaoEnsino,
           departamento,
-          carteira,
+          carteiraId,
           userId
         });
 

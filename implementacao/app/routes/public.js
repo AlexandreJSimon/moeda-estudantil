@@ -13,8 +13,8 @@ module.exports = (app) => {
 
     //Professor routes
     public.get('/professores', app.controllers.professor.index);
-   // public.get('/professor/new', app.controllers.professor.new);
-   // public.post('/professor/new', app.controllers.professor.register);
+    public.get('/professor/new', app.controllers.professor.new);
+    public.post('/professor/new', app.controllers.professor.register);
     public.get('/professor/delete/:id', app.controllers.professor.delete);
     public.get('/professor/update/:id', app.controllers.professor.getById);
     public.post('/professor/update/:id', app.controllers.professor.update);

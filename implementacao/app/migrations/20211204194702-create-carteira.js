@@ -9,7 +9,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       saldo: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       userId: {
         type: Sequelize.INTEGER
