@@ -58,7 +58,7 @@ module.exports = (app) => {
           userId
         });
 
-        return res.redirect('professor/index')
+        return res.redirect('/professores')
       }catch(err){
         return res.status(400).send({ error: 'Bad Request' });
       }

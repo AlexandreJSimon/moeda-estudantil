@@ -119,7 +119,7 @@ module.exports = (app) => {
       try{
         return res.format({
           html : () => {
-              res.render('aluno/index', { alunos: alunos, carteira: carteira});
+              res.render('aluno/index', { alunos: alunos, carteira: carteira,  userId: req.params.userId });
           }
         });
       }catch(err){

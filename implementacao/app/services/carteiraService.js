@@ -1,6 +1,6 @@
 module.exports = (app) => {
   const carteiraService = {};
-  const Carteira = app.models.index.Carteira;
+  const Carteira = app.models.index.Carteira
   const User = app.models.index.User
 
   carteiraService.create = async (userId,saldo) => {
@@ -17,22 +17,21 @@ module.exports = (app) => {
     }
   }
 
-  carteiraService.transfer = async (mensagem, valor, remetenteId, destinarioId) => {
+  carteiraService.transfer = async (mensagem, valor, emailRemetente, destinarioId) => {
     try{
+      console.log("aqui")
 
       const destinario = await User.findOne({ raw: true, where: { id: destinarioId } });
-      const remetente = await User.findOne({ raw: true, where: { id: remetenteId } });
+      const remetente = await User.findOne({ raw: true, where: { email: emailRemetente } });
 
-      if(isEmpty(destinario) ||isEmpty(remetente) ){
+      if(Object.keys(destinario).length === 0   || Object.keys(remetente).length === 0  ){
         throw new Error('Nenhum usuario encontrado');
       }
 
-      const carteiraDestinario = await User.Carteira({ raw: true, where: { userId: destinarioId } });
-      const carteiraRemetente = await User.Carteira({ raw: true, where: { userId: remetenteId } });
-
-      if(isEmpty(carteiraDestinario) ||isEmpty(carteiraRemetente) ){
-        throw new Error('Erro, por favor tente novamente mais tarde');
-      }
+      const carteiraDestinario = await Carteira.findOne({  where: { userId: destinarioId } });
+      const carteiraRemetente = await Carteira.findOne({  where: { userId: remetente.id } });
+      
+      valor = parseInt(valor);
 
       if(carteiraRemetente.saldo - valor < 0){
         throw new Error('Saldo insuficiente');
@@ -43,7 +42,7 @@ module.exports = (app) => {
       })
 
       await carteiraDestinario.update({
-        saldo: carteiraRemetente.saldo + valor
+        saldo: carteiraDestinario.saldo + valor
       })
 
     }catch(err){

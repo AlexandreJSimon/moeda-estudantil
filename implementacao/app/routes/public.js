@@ -4,6 +4,7 @@ module.exports = (app) => {
     public.get('/', app.controllers.init.index);
 
     //Carteira
+    public.post('/carteira/transferencia/:destinarioId', app.controllers.carteira.transferencia);
     public.get('/aluno/carteira/:userId', app.controllers.aluno.getCarteira);
     public.get('/professor/carteira/:userId', app.controllers.professor.getCarteira);
     

@@ -75,7 +75,29 @@
 							<p><b>Saldo: </b><%= carteira.saldo %></p>
 						</div>
 						<div class="modal-footer">
-						<button type="button" class="btn btn-warning">Realizar transferencia</button>
+							
+						<p>
+							<a class="btn btn-warning" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+								Tranferir para esse aluno
+							</a>
+						
+						</p>
+						<div class="collapse" id="collapseExample">
+							<div class="card card-body">
+								<form action="/carteira/transferencia/<%= userId %>"  method="POST">
+									<div class="mb-2">
+										<label for="emailRemetente" class="form-label">seu email</label>
+										<input type="emailRemetente" name="emailRemetente" class="form-control" id="emailRemetente" value="">
+									  </div>
+									  <div class="mb-2">
+										<label for="valor" class="form-label">valor</label>
+										<input type="valor" name="valor" class="form-control" id="valor" value="">
+									  </div>
+									  <button type="submit" class="btn btn-primary mt-3 mb-3">transferir</button>
+								</form>
+							</div>
+						</div>
+
 						</div>
 					</div>
 					</div>
