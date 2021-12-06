@@ -47,6 +47,7 @@ module.exports = () => {
 
     consign({cwd: 'app'})
         .include('models/index.js')
+        .then('services')
         .then('controllers')
         .then('routes')
         .into(app);

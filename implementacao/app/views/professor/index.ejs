@@ -15,22 +15,18 @@
 				<div>
 				<span class="navbar-brand mb-0 h1">Moeda Estudantil</span>
 				<a href="/" class="btn btn-secondary">Pagina Inicial</a>
+				<a href="/professor/new" class="btn btn-light">Novo Professor</a>
 				</div>
 			</div>
 		</nav>
 		<div class="container">
 			<div class="pt-5">
-
-				<div class="mb-2">
-					<a href="/" class="btn btn-outline-success">Pagina Inicial</a>
-					<a href="/professor/new" class="btn btn-outline-success">Nova Professor</a>
-				  </div>
-
 				<table class="table">
 						<thead>
 								<tr>
 										<th scope="col">#</th>
 										<th scope="col">nome</th>
+										<th scope="col">departamento</th>
 										<th scope="col"></th>
 								</tr>
 						</thead>
@@ -44,7 +40,9 @@
 								<tr>
 									<th scope="row"><%= professores[i].id %></th>
 									<td><%= professores[i].nome %></td>
+									<td><%= professores[i].departamento %></td>
 									<td>
+										<a href="/professor/carteira/<%= professores[i].userId %>" class="btn btn-outline-warning btn-sm">Carteira</a>
 										<a href="/professor/delete/<%= professores[i].id %>" class="btn btn-outline-danger btn-sm">Remove</a>
 									</td>
 								</tr>
@@ -54,6 +52,32 @@
 						</tbody>
 				</table>
 			</div>
+			<!-- Modal -->
+			<%
+
+			if(typeof carteira != "undefined"){
+				%>
+					<!-- Modal -->
+				<div class="modal fade show" id="modalExemplo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-modal="true" style="display: block;">
+					<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Carteira</h5>
+						<a href="/alunos" class="btn btn-dark">fechar</a>
+						</div>
+						<div class="modal-body">
+							<p><b>Saldo: </b><%= carteira.saldo %></p>
+						</div>
+						<div class="modal-footer">
+						</div>
+					</div>
+					</div>
+				</div>
+				<%
+			}
+			%>
+
+		<!-- Fim -->
 		</div>
 	</body>
 </html>

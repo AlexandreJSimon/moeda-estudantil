@@ -1,14 +1,15 @@
-const passport = require("passport");
 
 module.exports = (app) => {
   
     const aluno = {};
     const Aluno = app.models.index.Aluno
     const User = app.models.index.User
+    const Carteira = app.models.index.Carteira
+    const CarteiraService = app.services.carteiraService;
 
     aluno.index = async (req,res) => {
 
-      alunos = await Aluno.findAll({ raw: true });
+      const alunos = await Aluno.findAll({ raw: true });
 
       try{
         return res.format({
@@ -35,26 +36,32 @@ module.exports = (app) => {
     
     aluno.register = async (req,res) => {
       const { email, senha, nome, cpf, rg, instituicaoEnsino, curso, endereco } = req.body;
-      const role = "aluno";
+      const role = "op_adm";
       try{
-        const userCreated = await User.create({ 
+        const userEntity = await User.create({ 
           email,
           senha,
           role
         });
 
-        const userId = userCreated.id;
-        const alunoCreated = await Aluno.create({ 
+
+        const userId = userEntity.id;
+        const saldo = 0;
+        const carteiraEntity = CarteiraService.create(userId, saldo);
+
+        const carteiraId = carteiraEntity.id;
+        const alunoEntity = await Aluno.create({ 
           nome,
           cpf, 
           rg,
           instituicaoEnsino,
           curso,
           endereco,
+          carteiraId,
           userId
         });
 
-        return res.redirect('/')
+        return res.redirect('/alunos')
       }catch(err){
         return res.status(400).send({ error: 'Bad Request' });
       }
@@ -70,7 +77,6 @@ module.exports = (app) => {
         return res.status(400).send({ error: 'Bad Request' });
       }
     }
-  
 
     aluno.update = async (req,res) => {
  
@@ -79,7 +85,7 @@ module.exports = (app) => {
         let aluno = await Aluno.findByPk(req.params.id)
         aluno = await aluno.update(req.body)
 
-        return res.redirect('/')
+        return res.redirect('/alunos')
       }catch(err){
         console.log(err)
         return res.status(400).send({ error: 'Bad Request' });
@@ -99,11 +105,28 @@ module.exports = (app) => {
               id: alunodeleted.userId
           }
         })
-        return res.redirect('/')
+        return res.redirect('/alunos')
       }catch(err){
         return res.status(400).send({ error: 'Bad Request' });
       }
     }
+
+    aluno.getCarteira = async (req,res) => {
+
+      const carteira = await Carteira.findOne({ raw: true, where: { userId: req.params.userId } });
+      const alunos = await Aluno.findAll({ raw: true });
+
+      try{
+        return res.format({
+          html : () => {
+              res.render('aluno/index', { alunos: alunos, carteira: carteira,  userId: req.params.userId });
+          }
+        });
+      }catch(err){
+        return res.status(400).send({ error: 'Bad Request' });
+      }
+    }
+
 
     return aluno;
   }

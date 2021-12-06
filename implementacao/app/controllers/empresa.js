@@ -35,7 +35,7 @@ module.exports = (app) => {
     
     empresa.register = async (req,res) => {
       const { email, senha, nome, descricao, valor } = req.body;
-      const role = "op_empresa";
+      const role = "op_recebedor";
       try{
         const userCreated = await User.create({ 
           email,
@@ -94,7 +94,7 @@ module.exports = (app) => {
               id: empresaDeleted.userId
           }
         })
-        return res.redirect('/')
+        return res.redirect('/empresas')
       }catch(err){
         return res.status(400).send({ error: 'Bad Request' });
       }

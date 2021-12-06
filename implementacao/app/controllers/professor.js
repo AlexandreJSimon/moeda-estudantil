@@ -1,14 +1,14 @@
-const passport = require("passport");
-
 module.exports = (app) => {
   
     const professor = {};
     const Professor = app.models.index.Professor
     const User = app.models.index.User
+    const Carteira = app.models.index.Carteira
+    const CarteiraService = app.services.carteiraService;
 
     professor.index = async (req,res) => {
 
-      professores = await Professor.findAll({ raw: true });
+      const professores = await Professor.findAll({ raw: true });
 
       try{
         return res.format({
@@ -35,25 +35,30 @@ module.exports = (app) => {
     
     professor.register = async (req,res) => {
       const { email, senha, nome, cpf, instituicaoEnsino, departamento, carteira } = req.body;
-      const role = "op_transacao";
+      const role = "op_remetente";
       try{
-        const userCreated = await User.create({ 
+
+        const userEntity = await User.create({ 
           email,
           senha,
           role
         });
 
-        const userId = userCreated.id;
-        const professorCreated = await Professor.create({ 
+        const userId = userEntity.id;
+        const saldo = 500;
+        const carteiraEntity = CarteiraService.create(userId, saldo);
+
+        const carteiraId = carteiraEntity.id;
+        const professorEntity = await Professor.create({ 
           nome,
           cpf, 
           instituicaoEnsino,
           departamento,
-          carteira,
+          carteiraId,
           userId
         });
 
-        return res.redirect('/')
+        return res.redirect('/professores')
       }catch(err){
         return res.status(400).send({ error: 'Bad Request' });
       }
@@ -95,7 +100,23 @@ module.exports = (app) => {
               id: professorDelted.userId
           }
         })
-        return res.redirect('/')
+        return res.redirect('/professores')
+      }catch(err){
+        return res.status(400).send({ error: 'Bad Request' });
+      }
+    }
+    
+    professor.getCarteira = async (req,res) => {
+
+      const carteira = await Carteira.findOne({ raw: true, where: { userId: req.params.userId } });
+      const professores = await Professor.findAll({ raw: true });
+
+      try{
+        return res.format({
+          html : () => {
+              res.render('professor/index', { professores: professores, carteira: carteira});
+          }
+        });
       }catch(err){
         return res.status(400).send({ error: 'Bad Request' });
       }
