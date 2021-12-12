@@ -7,14 +7,16 @@ module.exports = (app) => {
     const Carteira = app.models.index.Carteira
     const CarteiraService = app.services.carteiraService;
 
+    var db = app.models.index;
+
     aluno.index = async (req,res) => {
 
-      const alunos = await Aluno.findAll({ raw: true });
+      const alunos = await db.sequelize.query('SELECT * FROM Alunos INNER JOIN Users ON Alunos.userId=Users.id');
 
       try{
         return res.format({
           html : () => {
-              res.render('aluno/index', { alunos: alunos});
+              res.render('aluno/index', { alunos: alunos[0]});
           }
         });
       }catch(err){
