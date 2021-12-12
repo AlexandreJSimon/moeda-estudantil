@@ -31,6 +31,7 @@
 								<th scope="col">nome</th>
 								<th scope="col">curso</th>
 								<th scope="col">instituicao</th>
+								<th scope="col">emal</th>
 								<th scope="col"></th>
 							</tr>
 					</thead>
@@ -46,6 +47,7 @@
 									<td><%= alunos[i].nome %></td>
 									<td><%= alunos[i].curso %></td>
 									<td><%= alunos[i].instituicaoEnsino %></td>
+									<td><%= alunos[i].email %></td>
 									<td>
 										<a href="/aluno/carteira/<%= alunos[i].userId %>" class="btn btn-outline-warning btn-sm">Carteira</a>
 										<a href="/aluno/update/<%= alunos[i].id %>" class="btn btn-outline-primary btn-sm">Editar</a>
