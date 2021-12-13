@@ -7,14 +7,19 @@ module.exports = (app) => {
     const Carteira = app.models.index.Carteira
     const CarteiraService = app.services.carteiraService;
 
+    var db = app.models.index;
+
     aluno.index = async (req,res) => {
 
       const alunos = await Aluno.findAll({ raw: true });
 
+      const emails = await db.sequelize.query('SELECT Users.email FROM Alunos INNER JOIN Users ON Alunos.userId=Users.id');
+     
+
       try{
         return res.format({
           html : () => {
-              res.render('aluno/index', { alunos: alunos});
+              res.render('aluno/index', { alunos: alunos, emails: emails[0]});
           }
         });
       }catch(err){
@@ -116,10 +121,13 @@ module.exports = (app) => {
       const carteira = await Carteira.findOne({ raw: true, where: { userId: req.params.userId } });
       const alunos = await Aluno.findAll({ raw: true });
 
+      const emails = await db.sequelize.query('SELECT Users.email FROM Alunos INNER JOIN Users ON Alunos.userId=Users.id');
+
+
       try{
         return res.format({
           html : () => {
-              res.render('aluno/index', { alunos: alunos, carteira: carteira,  userId: req.params.userId });
+              res.render('aluno/index', { alunos: alunos, carteira: carteira,  userId: req.params.userId , emails: emails[0]});
           }
         });
       }catch(err){

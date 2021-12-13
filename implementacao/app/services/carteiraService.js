@@ -2,7 +2,9 @@ module.exports = (app) => {
   const carteiraService = {};
   const Carteira = app.models.index.Carteira
   const User = app.models.index.User
+  const ExtratoService = app.ExtratoService
 
+ 
   carteiraService.create = async (userId,saldo) => {
     try{
 
@@ -19,7 +21,6 @@ module.exports = (app) => {
 
   carteiraService.transfer = async (mensagem, valor, emailRemetente, destinarioId) => {
     try{
-      console.log("aqui")
 
       const destinario = await User.findOne({ raw: true, where: { id: destinarioId } });
       const remetente = await User.findOne({ raw: true, where: { email: emailRemetente } });
@@ -45,10 +46,15 @@ module.exports = (app) => {
         saldo: carteiraDestinario.saldo + valor
       })
 
+      const userEmailRemetente= remetente.email;
+      const userEmailDestinatario= destinario.email;
+
+      await ExtratoService.addOperacao(mensagem, userEmailRemetente, userEmailDestinatario , valor );
+
     }catch(err){
       throw new Error('Erro ao realizar transacao');
     }
   }
 
-  return carteiraService;
+    return carteiraService;
 };

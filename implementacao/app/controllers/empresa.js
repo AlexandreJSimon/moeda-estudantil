@@ -8,7 +8,7 @@ module.exports = (app) => {
 
     empresa.index = async (req,res) => {
 
-      empresas = await Empresa.findAll({ raw: true });
+      const empresas = await Empresa.findAll({ raw: true });
 
       try{
         return res.format({
