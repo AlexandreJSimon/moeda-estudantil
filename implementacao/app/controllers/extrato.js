@@ -1,8 +1,7 @@
 
+module.exports = (app) => {
   const ExtratoService = app.services.extratoService;
   const User = app.models.index.User
-
-module.exports = (app) => {
   
     const extrato = {};
 
