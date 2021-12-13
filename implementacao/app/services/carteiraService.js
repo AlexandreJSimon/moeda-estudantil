@@ -2,6 +2,7 @@ module.exports = (app) => {
   const carteiraService = {};
   const Carteira = app.models.index.Carteira
   const User = app.models.index.User
+  const Vantagem = app.models.Vantagem
 
   carteiraService.create = async (userId,saldo) => {
     try{
@@ -45,6 +46,37 @@ module.exports = (app) => {
         saldo: carteiraDestinario.saldo + valor
       })
 
+    }catch(err){
+      throw new Error('Erro ao realizar transacao');
+    }
+  }
+
+  carteiraService.buy =async (valor, emailRemetente, emailParceiro, vantagemId) => {
+    try{
+
+      const vantagem = await Vantagem.findOne({ raw: true, where: { id: vantagemId } });
+      const parceiro = await User.findOne({ raw: true, where: { id: emailParceiro } });
+      const remetente = await User.findOne({ raw: true, where: { email: emailRemetente } });
+
+      if(Object.keys(parceiro).length === 0   || Object.keys(remetente).length === 0  ){
+        throw new Error('Nenhum usuario encontrado');
+      }
+
+      if(Object.keys(vantagem).length === 0 ){
+        throw new Error('Nenhuma vantagem encontrada');
+      }
+
+      const carteiraRemetente = await Carteira.findOne({  where: { userId: remetente.id } });
+      valor = parseInt(valor);
+
+      if(carteiraRemetente.saldo - valor < 0){
+        throw new Error('Saldo insuficiente');
+      }
+
+      await carteiraRemetente.update({
+        saldo: carteiraRemetente.saldo - valor
+      })
+      
     }catch(err){
       throw new Error('Erro ao realizar transacao');
     }
