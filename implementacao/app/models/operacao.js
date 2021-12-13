@@ -14,10 +14,10 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Operacao.init({
-    valor: DataTypes.INTEGER,
+    valor: DataTypes.STRING,
     mensagem: DataTypes.STRING,
-    userIdRemetente: DataTypes.INTEGER,
-    userIdDestinatario: DataTypes.INTEGER
+    userEmailRemetente: DataTypes.STRING,
+    userEmailDestinatario: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Operacao',

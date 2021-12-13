@@ -1,14 +1,18 @@
 module.exports = (app) => {
     const extratoService = {};
     const Operacao = app.models.index.Operacao
+    const CarteiraService = app.services.carteiraService;
+    const User = app.models.index.User
+    var db = app.models.index;
   
-    extratoService.addOperacao = async (mensagem,userIdRemetente, userIdDestinatario) => {
+    extratoService.addOperacao = async (mensagem,userEmailRemetente, userEmailDestinatario, valor) => {
       try{
   
         const extratoEntity = await Operacao.create({ 
+            valor,
             mensagem,
-            userIdRemetente,
-            userIdDestinatario
+            userEmailRemetente,
+            userEmailDestinatario
         });
     
         console.log("-------------------------------")
@@ -21,19 +25,18 @@ module.exports = (app) => {
         throw new Error('Erro gerar extrato');
       }
     }
-
     
-    extratoService.listByUserId = async ( userId) => {
+    extratoService.listByUserEmail = async (email) => {
         try{
     
         const extratoEntity = await Operacao.findAll({ raw: true,
             where: {
                 $or: [
                     {
-                        userIdRemetente: userId
+                        userEmailRemetente: email
                     }, 
                     {
-                        userIdDestinatario: userId
+                        userEmailDestinatario: email
                     }
                 ]}
             });
@@ -49,6 +52,6 @@ module.exports = (app) => {
         }
       }
   
-    return extratoService;
-  };
+  return extratoService;
+};
   

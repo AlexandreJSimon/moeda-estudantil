@@ -2,7 +2,8 @@ module.exports = (app) => {
   const carteiraService = {};
   const Carteira = app.models.index.Carteira
   const User = app.models.index.User
-  const ExtratoService = app.services.extratoService;
+  const ExtratoService = app.ExtratoService
+
  
   carteiraService.create = async (userId,saldo) => {
     try{
@@ -45,12 +46,12 @@ module.exports = (app) => {
         saldo: carteiraDestinario.saldo + valor
       })
 
-      ExtratoService.addOperacao(mensagem, remetente.id, destinario.id )
+      ExtratoService.addOperacao(mensagem, remetente.email, destinario.email, valor )
 
     }catch(err){
       throw new Error('Erro ao realizar transacao');
     }
   }
 
-  return carteiraService;
+    return carteiraService;
 };
