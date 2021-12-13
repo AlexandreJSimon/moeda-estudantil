@@ -2,7 +2,8 @@ module.exports = (app) => {
   const carteiraService = {};
   const Carteira = app.models.index.Carteira
   const User = app.models.index.User
-  const Vantagem = app.models.Vantagem
+  const Vantagem = app.models.index.Vantagem
+  const Transacao = app.models.index.Transacao
 
   carteiraService.create = async (userId,saldo) => {
     try{
@@ -51,12 +52,13 @@ module.exports = (app) => {
     }
   }
 
-  carteiraService.buy =async (valor, emailRemetente, emailParceiro, vantagemId) => {
+  carteiraService.buy =async (valor, userID, vantagemId) => {
     try{
 
       const vantagem = await Vantagem.findOne({ raw: true, where: { id: vantagemId } });
-      const parceiro = await User.findOne({ raw: true, where: { id: emailParceiro } });
-      const remetente = await User.findOne({ raw: true, where: { email: emailRemetente } });
+      const user = await User.findOne({ raw: true, where: { id: userID } });
+
+      const transacao = await Transacao.create(userID, vantagemId, valor, Date.now);
 
       if(Object.keys(parceiro).length === 0   || Object.keys(remetente).length === 0  ){
         throw new Error('Nenhum usuario encontrado');
