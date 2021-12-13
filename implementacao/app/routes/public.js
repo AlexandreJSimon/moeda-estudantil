@@ -4,7 +4,7 @@ module.exports = (app) => {
     public.get('/', app.controllers.init.index);
 
      //Carteira
-     public.post('/extrato/:userId', app.controllers.extrato.index);
+     public.get('/extrato/:userId', app.controllers.extrato.index);
 
     //Carteira
     public.post('/carteira/transferencia/:destinarioId', app.controllers.carteira.transferencia);

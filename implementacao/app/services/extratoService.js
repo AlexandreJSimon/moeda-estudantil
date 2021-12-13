@@ -7,6 +7,8 @@ module.exports = (app) => {
   
     extratoService.addOperacao = async (mensagem,userEmailRemetente, userEmailDestinatario, valor) => {
       try{
+        console.log("--------------ENTROU-----------------")
+
   
         const extratoEntity = await Operacao.create({ 
             valor,

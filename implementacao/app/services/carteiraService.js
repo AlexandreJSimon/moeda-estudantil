@@ -46,7 +46,10 @@ module.exports = (app) => {
         saldo: carteiraDestinario.saldo + valor
       })
 
-      ExtratoService.addOperacao(mensagem, remetente.email, destinario.email, valor )
+      const userEmailRemetente= remetente.email;
+      const userEmailDestinatario= destinario.email;
+
+      await ExtratoService.addOperacao(mensagem, userEmailRemetente, userEmailDestinatario , valor );
 
     }catch(err){
       throw new Error('Erro ao realizar transacao');
