@@ -2,6 +2,7 @@ module.exports = (app) => {
   const carteiraService = {};
   const Carteira = app.models.index.Carteira
   const User = app.models.index.User
+  const Operacao = app.models.index.Operacao
 
   carteiraService.create = async (userId,saldo) => {
     try{
@@ -44,6 +45,19 @@ module.exports = (app) => {
       await carteiraDestinario.update({
         saldo: carteiraDestinario.saldo + valor
       })
+
+
+      const userEmailRemetente = remetente.email;
+      const userEmailDestinatario = destinario.email;
+
+      const operacaoEntity = await Operacao.create({ 
+        mensagem,
+        userEmailDestinatario, 
+        userEmailRemetente,
+        valor
+      });
+
+      console.log(operacaoEntity);
 
     }catch(err){
       throw new Error('Erro ao realizar transacao');

@@ -3,6 +3,8 @@ module.exports = (app) => {
     //user routes
     public.get('/', app.controllers.init.index);
 
+    public.get('/extrato/:id', app.controllers.extrato.index);
+
     //Carteira
     public.post('/carteira/transferencia/:destinarioId', app.controllers.carteira.transferencia);
     public.get('/aluno/carteira/:userId', app.controllers.aluno.getCarteira);
