@@ -7,22 +7,24 @@ module.exports = (app) => {
     const extrato = {};
 
     extrato.index = async (req,res) => {
+        try{
 
         const user = await User.findOne({ raw: true, where: { id: req.params.id } });
 
-        const extratoEntity = await Operacao.findAll({ raw: true, where: {
-             [db.sequelize.or]: [{userEmailRemetente:  user.email}, {userEmailDestinatario:  user.email}]
-             } });
 
-        console.log(extratoEntity);
-  
-        try{
-            return res.format({
+        const extratoEntity = await db.sequelize.query(
+            `SELECT * FROM Operacaos WHERE userEmailRemetente = '${user.email}'  or userEmailDestinatario = '${user.email}'`
+          );
+
+  console.log(extratoEntity);
+       
+        return res.format({
                 html : () => {
-                    res.render('extrato/index', { alunos: alunos});
+                    res.render('extrato/index', { extrato: extratoEntity});
                 }
               });;
         }catch(err){
+            console.log(err);
           return res.status(400).send({ error: 'Bad Request' });
         }
       }

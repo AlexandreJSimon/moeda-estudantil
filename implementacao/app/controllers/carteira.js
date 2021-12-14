@@ -7,10 +7,9 @@ module.exports = (app) => {
 
     
     carteira.transferencia = async (req,res) => {
-        const { emailRemetente, valor } = req.body;
+        const { emailRemetente, valor, mensagem } = req.body;
         
         const destinarioId =  req.params.destinarioId;
-        const mensagem = "";
 
         CarteiraService.transfer(mensagem, valor, emailRemetente, destinarioId);
 

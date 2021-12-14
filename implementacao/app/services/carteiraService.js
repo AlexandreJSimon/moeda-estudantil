@@ -20,7 +20,6 @@ module.exports = (app) => {
 
   carteiraService.transfer = async (mensagem, valor, emailRemetente, destinarioId) => {
     try{
-      console.log("aqui")
 
       const destinario = await User.findOne({ raw: true, where: { id: destinarioId } });
       const remetente = await User.findOne({ raw: true, where: { email: emailRemetente } });
